@@ -33,7 +33,7 @@
   </div>
 
   <div class="posts">
-    <% if (posts.length >0) {%>
+    <% if (posts && posts.length) {%>
       <% posts?.forEach(function(post) { %>
       <div class="post">
         <p><%= post.content %>
