@@ -9,8 +9,9 @@ async function getHomePageHandler(req, res) {
 
   //Load a page of posts and show in reverse chronological order
   try {
-    const posts = await getPosts();
-    
+    let posts = await getPosts();
+    posts = Array.isArray(posts) ? posts : [];
+
     res.render('home', { posts });
 
   } catch (error) {

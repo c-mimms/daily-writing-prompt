@@ -33,14 +33,18 @@
   </div>
 
   <div class="posts">
-    <% posts?.forEach(function(post) { %>
-    <div class="post">
-      <p><%= post.content %>
-      </p>
-      <p><%= post.author?.username%>
-      </p>
-    </div>
-    <% }); %>
+    <% if (posts.length >0) {%>
+      <% posts?.forEach(function(post) { %>
+      <div class="post">
+        <p><%= post.content %>
+        </p>
+        <p><%= post.author?.username%>
+        </p>
+      </div>
+      <% }); %>
+      <% } else { %>
+        <p>No posts to display.</p>
+      <% } %>
   </div>
 
 </body>
