@@ -9,6 +9,7 @@ import { router as authRouter } from './routes/auth.js';
 import { router as postRouter } from './routes/post.js';
 import { router as userRouter } from './routes/user.js';
 import { router as apiRouter } from './routes/api/api.js';
+import { router as homeRouter} from './routes/home.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -58,7 +59,7 @@ async function cleanup() {
 
 // Route Handlers
 function landingPageHandler(req, res) {
-  req.isAuthenticated() ? res.render('home') : res.render('landing');
+  req.isAuthenticated() ? homeRouter : res.render('landing');
 }
 
 function privacyPageHandler(req, res) {
