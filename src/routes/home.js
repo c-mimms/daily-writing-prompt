@@ -11,7 +11,7 @@ async function getHomePageHandler(req, res) {
   try {
     const posts = await getPosts();
 
-    res.render('home', { posts });
+    res.render('home', { posts: posts });
 
   } catch (error) {
     console.error('Error retrieving post:', error);
