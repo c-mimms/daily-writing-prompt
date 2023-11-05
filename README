@@ -1,1 +1,6 @@
 Base app that supports users and making posts.
+
+Useful commands for local development:
+Connect to local db ```psql postgres://postgres:postgres@localhost:5432```
+Start app ```npm run dev```
+
