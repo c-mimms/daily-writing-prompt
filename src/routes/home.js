@@ -1,12 +1,10 @@
-import { Router } from 'express';
 import { getPost, getPosts } from '../db/posts.js';
 
-const router = Router();
-
-router.get('/', getHomePageHandler);
-
 async function getHomePageHandler(req, res) {
+  req.isAuthenticated() ? renderHomePage(res) : res.render('landing');
+}
 
+async function renderHomePage(res){
   //Load a page of posts and show in reverse chronological order
   try {
     const posts = await getPosts();
@@ -19,4 +17,4 @@ async function getHomePageHandler(req, res) {
   }
 }
 
-export { router };
+export { getHomePageHandler };

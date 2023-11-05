@@ -9,7 +9,7 @@ import { router as authRouter } from './routes/auth.js';
 import { router as postRouter } from './routes/post.js';
 import { router as userRouter } from './routes/user.js';
 import { router as apiRouter } from './routes/api/api.js';
-import { router as homeRouter} from './routes/home.js';
+import { getHomePageHandler as homePageHandler} from './routes/home.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -38,7 +38,7 @@ app.use('/p', ensureAuthenticated, postRouter);
 app.use('/u', ensureAuthenticated, userRouter);
 app.use('/api', ensureAuthenticated, apiRouter);
 
-app.get('/', landingPageHandler);
+app.get('/', homePageHandler);
 app.get('/privacy', privacyPageHandler);
 app.get('/tos', tosPageHandler);
 
@@ -58,9 +58,6 @@ async function cleanup() {
 }
 
 // Route Handlers
-function landingPageHandler(req, res) {
-  req.isAuthenticated() ? homeRouter : res.render('landing');
-}
 
 function privacyPageHandler(req, res) {
   res.sendFile(path.join(__dirname, 'public', 'privacy_policy.html'));
