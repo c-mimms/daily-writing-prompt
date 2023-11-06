@@ -8,13 +8,11 @@ generator client {
 }
 
 model User {
-  id            Int      @id @default(autoincrement())
-  googleId      String?  @unique
-  username      String   @unique
-  passwordHash  Bytes?
-  salt          Bytes?
-  email         String?
-  posts         Post[]
+  id       Int     @id @default(autoincrement())
+  googleId String  @unique
+  username String
+  email    String?
+  posts    Post[]
 }
 
 model Post {
