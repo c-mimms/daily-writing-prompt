@@ -12,6 +12,7 @@ model User {
   googleId      String?  @unique
   username      String   @unique
   passwordHash  String?
+  salt          String?
   email         String?
   posts         Post[]
 }
