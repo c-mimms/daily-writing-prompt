@@ -23,10 +23,18 @@ router.post('/login/password', passport.authenticate('local', {
   failureMessage: true
 }));
 
-router.post('/signup', function(req, res, next) {
+router.post('/signup', signupHandler);
+
+async function signupHandler(req, res, next) {
   var salt = crypto.randomBytes(16);
-  crypto.pbkdf2(req.body.password, salt, 310000, 32, 'sha256', function(err, hashedPassword) {
+  crypto.pbkdf2(req.body.password, salt, 310000, 32, 'sha256', async function(err, hashedPassword) {
     // if (err) { return next(err); }
+    
+    const existingUser = await prisma.user.findUnique({ where: { username: req.body.username } });
+    if(existingUser) {
+      res.redirect('/auth/login'); //Add message that user already exists
+      return;
+    }
 
     prisma.user.create({
       data: {
@@ -40,7 +48,7 @@ router.post('/signup', function(req, res, next) {
         res.redirect('/');
       });});
   });
-});
+}
 
 router.get('/google', (req, res) => {
   passport.authenticate('google', {
