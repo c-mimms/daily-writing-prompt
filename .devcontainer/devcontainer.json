@@ -33,6 +33,7 @@
 			  "GitHub.copilot-chat",
 			  "GitHub.copilot",
 			  "ms-azuretools.vscode-docker",
+			  "github.vscode-github-actions"
 			]
 		  }
 	},
