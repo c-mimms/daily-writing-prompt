@@ -1,11 +1,45 @@
 // routes/auth.js
 import { Router } from 'express';
 import passport from 'passport';
+import crypto from 'crypto';
+import { PrismaClient } from '@prisma/client';
 
+const prisma = new PrismaClient();
 const router = Router();
 
-router.get('/login', (req, res) => {
-  res.redirect('/auth/google');
+router.use((req, res, next) => { 
+  console.log(req.url);
+  console.log(req.body);
+  next();
+});
+
+router.get('/login', function(req, res, next) {
+  res.render('login');
+});
+
+router.post('/login/password', passport.authenticate('local', {
+  successReturnToOrRedirect: '/',
+  failureRedirect: '/auth/login',
+  failureMessage: true
+}));
+
+router.post('/signup', function(req, res, next) {
+  var salt = crypto.randomBytes(16);
+  crypto.pbkdf2(req.body.password, salt, 310000, 32, 'sha256', function(err, hashedPassword) {
+    // if (err) { return next(err); }
+
+    prisma.user.create({
+      data: {
+        username: req.body.username,
+        passwordHash: hashedPassword,
+        salt: salt,
+        // other fields...
+      }
+    }).then((user) => {
+      req.login(user, function(err) {
+        res.redirect('/');
+      });});
+  });
 });
 
 router.get('/google', (req, res) => {

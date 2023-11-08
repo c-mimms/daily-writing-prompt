@@ -8,7 +8,34 @@
 
 <body>
   <h1 class="title">Single Post</h1>
-  <div class="post-details">
+  <div class="post-details"><!DOCTYPE html>
+<html>
+
+<head>
+  <link rel="stylesheet" type="text/css" href="/css/login.css">
+  <title>Login</title>
+</head>
+
+<body>
+  <h1 class="title">Login</h1>
+  <div class="login-container">
+    <form action="/login" method="post">
+      <div class="form-group">
+        <label for="username">Username:</label>
+        <input type="text" id="username" name="username" required>
+      </div>
+      <div class="form-group">
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" required>
+      </div>
+      <div class="form-group">
+        <input type="submit" value="Login">
+      </div>
+    </form>
+  </div>
+</body>
+
+</html>
       <p><a href="/u/<%= post.author?.id %>"><%= post.author?.username%></a> <%= post.timestamp.toLocaleString('en-US') %>
       </p>
     </p>

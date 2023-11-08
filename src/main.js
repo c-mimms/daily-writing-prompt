@@ -11,6 +11,8 @@ import { router as userRouter } from './routes/user.js';
 import { router as apiRouter } from './routes/api/api.js';
 import { getHomePageHandler as homePageHandler} from './routes/home.js';
 
+import bodyParser from 'body-parser';
+
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
@@ -28,6 +30,8 @@ app.use(session({
 app.use(express.json());
 app.use(passport.initialize());
 app.use(passport.session());
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
 app.set('views', path.join(__dirname, 'views'));
 app.use(express.static(path.join(__dirname, 'public')));
 app.set('view engine', 'ejs');

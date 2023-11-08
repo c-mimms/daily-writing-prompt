@@ -1,7 +1,9 @@
 // config/passport.js
 import passport from 'passport';
 import GoogleStrategy from 'passport-google-oauth20';
+import LocalStrategy from 'passport-local';
 import { PrismaClient } from '@prisma/client';
+import crypto from 'crypto';
 
 const prisma = new PrismaClient();
 
@@ -13,6 +15,29 @@ passport.deserializeUser(async (id, done) => {
   const user = await prisma.user.findUnique({ where: { id: id } });
   done(null, user);
 });
+
+passport.use(
+  new LocalStrategy(
+  async (username, password, done) => {
+    console.log(`Entered local strategy: ${username} : ${password}`);
+    const existingUser = await prisma.user.findUnique({ where: { username: username } });
+    if (existingUser) {
+      crypto.pbkdf2(password, existingUser.salt, 310000, 32, 'sha256', function(err, hashedPassword) {
+        if (err || !crypto.timingSafeEqual(existingUser.passwordHash, hashedPassword)) {
+          console.log(`Failed to authenticate user: ${username}`);
+          done(null,false);
+        } else {
+          console.log(`Authenticated user: ${username}`);
+          done(null, existingUser);
+        }
+      });
+    }
+    else {
+      console.log(`Failed to authenticate user: ${username} outside`);
+      done(null,false);
+    } 
+  }
+));
 
 passport.use(
   new GoogleStrategy({
