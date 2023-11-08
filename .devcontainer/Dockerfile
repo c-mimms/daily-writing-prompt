@@ -10,3 +10,6 @@ FROM mcr.microsoft.com/devcontainers/javascript-node:1-20-bullseye
 
 # [Optional] Uncomment if you want to install more global node modules
 # RUN su node -c "npm install -g <your-package-list-here>"
+# RUN curl -L https://fly.io/install.sh | sh
+#export FLYCTL_INSTALL="/home/node/.fly/bin"
+#export PATH="$FLYCTL_INSTALL:$PATH"

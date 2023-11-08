@@ -2,5 +2,6 @@ Base app that supports users and making posts.
 
 Useful commands for local development:
 Connect to local db ```psql postgres://postgres:postgres@localhost:5432```
+Connect to remote db ```fly postgres connect -a <postgres-app-name>```
 Start app ```npm run dev```
 
