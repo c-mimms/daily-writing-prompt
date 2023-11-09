@@ -2,27 +2,19 @@
 
 <!DOCTYPE html>
 <html lang="en">
-<link rel="stylesheet" href="/css/landing.css">
-
 
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Homepage</title>
-  <link rel="stylesheet" href="/styles.css">
+  <link rel="stylesheet" href="/css/home.css">
+  <script src="/script/home.js" defer></script>
 </head>
 
 <body>
-
-  <section id="hero">
-    <div class="container">
-      <h1 class="hero-title">Welcome to Postfriend</h1>
-      <p class="hero-description">
-        Share your thoughts, ideas, and collaborate with others in a giant shared space.
-      </p>
-      <a href="/auth/login" class="btn btn-primary">Get Started</a>
-    </div>
-  </section>
+  <header>
+    <h1>Postlist</h1>
+  </header>
 
   <!-- Make this collapsible -->
   <div id="post-section">
@@ -36,42 +28,12 @@
     <% if (posts) {%>
       <% posts?.forEach(function(post) { %>
       <div class="post">
-        <p><%= post.content %>
-        </p>
-        <p><%= post.author?.username%>
-        </p>
+        <p><%= post.content %></p>
+        <p><a href="/u/<%= post.author?.id %>"><%= post.author?.username %></a></p>
       </div>
       <% }); %>
       <% } else { %>
         <p>No posts to display.</p>
       <% } %>
   </div>
-
 </body>
-
-<script>
-  document.getElementById('post-form').addEventListener('submit', async (event) => {
-  event.preventDefault();
-  const form = event.target;
-
-  const content = form.elements.content.value;
-
-  const data = { content }; // Remove outgoingLinks if not needed for this form
-
-  const response = await fetch('/api/posts', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify(data)
-  });
-
-  if (response.ok) {
-    // form.reset(); // Reset the form fields after successful post submission
-    window.location.reload();
-  } else {
-    // Handle or display error
-    alert("Failed to create post. Please try again.");
-  }
-});
-</script>
