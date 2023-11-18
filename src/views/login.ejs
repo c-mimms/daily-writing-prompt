@@ -1,47 +1,83 @@
 <!DOCTYPE html>
-<html>
-
-<head>
-  <link rel="stylesheet" type="text/css" href="/css/login.css">
-  <title>Login</title>
-</head>
-
-<body>
-  <h1 class="title">Login</h1>
-  <div class="login-container">
-
-    <form action="/auth/login/password" method="post">
-      <div class="form-group">
-        <label for="username">Username:</label>
-        <input type="text" id="username" name="username">
+<html lang="en">
+   <head>
+      <meta charset="utf-8">
+      <title>Login</title>
+      <link rel="stylesheet" type="text/css" href="/css/login.css">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   </head>
+   <body>
+      <div class="wrapper">
+         <div class="title-text">
+            <div class="title login">
+               Login
+            </div>
+            <div class="title signup">
+               Signup
+            </div>
+         </div>
+         <div class="form-container">
+            <div class="slide-controls">
+               <input type="radio" name="slide" id="login" checked>
+               <input type="radio" name="slide" id="signup">
+               <label for="login" class="slide login">Login</label>
+               <label for="signup" class="slide signup">Signup</label>
+               <div class="slider-tab"></div>
+            </div>
+            <div class="form-inner">
+               <form action="/auth/login/password" method="post" class="login">
+                  <div class="field">
+                     <input type="text" name="username" placeholder="Username" required>
+                  </div>
+                  <div class="field">
+                     <input type="password" name="password" placeholder="Password" required>
+                  </div>
+                  <div class="field btn">
+                     <div class="btn-layer"></div>
+                     <input type="submit" value="Login">
+                  </div>
+               </form>
+               <form action="/auth/signup" method="post" class="signup">
+                  <div class="field">
+                     <input type="text" name="username" placeholder="Username" required>
+                  </div>
+                  <div class="field">
+                     <input type="password" name="password" placeholder="Password" required>
+                  </div>
+                  <!-- <div class="field">
+                     <input type="password" placeholder="Confirm password" required>
+                  </div> -->
+                  <div class="field btn">
+                     <div class="btn-layer"></div>
+                     <input type="submit" value="Signup">
+                  </div>
+               </form>
+            </div>
+            
+          <div class="divider">or</div>
+          <div class="oauth-group">
+            <a href="/auth/google" class="google-btn">
+              <img src="/images/web_light_rd_ctn.svg" alt="Login with Google">
+            </a>
+          </div>
+         </div>
       </div>
-      <div class="form-group">
-        <label for="password">Password:</label>
-        <input type="password" id="password" name="password">
-      </div>
-      <div class="form-group">
-        <input type="submit" value="Login">
-      </div>
-    </form>
-
-    <form action="/auth/signup" method="post">
-      <div class="form-group">
-        <label for="username">Username:</label>
-        <input type="text" id="username" name="username">
-      </div>
-      <div class="form-group">
-        <label for="password">Password:</label>
-        <input type="password" id="password" name="password">
-      </div>
-      <div class="form-group">
-        <input type="submit" value="Signup">
-      </div>
-    </form>
-    
-    <div class="form-group">
-        <a href="/auth/google" class="google-btn">Login with Google</a>
-    </div>
-  </div>
-</body>
-
+      <script>
+         const loginText = document.querySelector(".title-text .login");
+         const loginForm = document.querySelector("form.login");
+         const loginBtn = document.querySelector("label.login");
+         const signupBtn = document.querySelector("label.signup");
+         signupBtn.onclick = (()=>{
+           loginForm.style.marginLeft = "-50%";
+           loginText.style.marginLeft = "-50%";
+         });
+         loginBtn.onclick = (()=>{
+           loginForm.style.marginLeft = "0%";
+           loginText.style.marginLeft = "0%";
+         });
+         window.onload = function() {
+            document.getElementById('login').checked = true;
+        };  
+      </script>
+   </body>
 </html>
