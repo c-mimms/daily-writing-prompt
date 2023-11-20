@@ -1,0 +1,32 @@
+:root{
+    --main: #FEF0D5;
+    --mid: #7D5E35;
+    --dark-background: #633F1E;
+    --accent1: #BA491B;
+    --accent2: #C37B2C;
+    --accent3: #880C00;
+  }
+nav ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: var(--dark-background);
+  }
+  
+nav li {
+    float: left;
+  }
+  
+nav  li a {
+    display: block;
+    color: var(--main);
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+  }
+  
+  /* Change the link color to #111 (black) on hover */
+nav  li a:hover {
+    background-color: var(--mid);
+  }

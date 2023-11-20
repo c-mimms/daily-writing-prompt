@@ -25,14 +25,19 @@ app.use(session({
   secret: process.env.SESSION_SECRET,
   resave: false,
   saveUninitialized: true,
-  cookie: { secure: 'auto' },
+  // cookie: { secure: 'auto' },
 }));
-app.use(passport.initialize());
 app.use(passport.session());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
-app.use(express.json());
 app.use(express.static(path.join(__dirname, 'public')));
+
+//Middleware to expose user to templates
+app.use(function(req, res, next) {
+  res.locals.user = req.user;
+  next();
+});
+
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 

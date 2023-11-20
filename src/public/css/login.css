@@ -1,9 +1,19 @@
 
 @import url('https://fonts.googleapis.com/css?family=Poppins:400,500,600,700&display=swap');
+
+:root{
+  --main: #FEF0D5;
+  --mid: #7D5E35;
+  --dark-background: #633F1E;
+  --accent1: #BA491B;
+  --accent2: #C37B2C;
+  --accent3: #880C00;
+}
 *{
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  /* font-family: Arial, sans-serif; */
   font-family: 'Poppins', sans-serif;
 }
 html,body{
@@ -11,16 +21,12 @@ html,body{
   height: 100%;
   width: 100%;
   place-items: center;
-  background: -webkit-linear-gradient(left, #555, #999);
-}
-::selection{
-  background: #fa4299;
-  color: #fff;
+  background: -webkit-linear-gradient(left, var(--dark-background), var(--mid));
 }
 .wrapper{
   overflow: hidden;
   max-width: 390px;
-  background: #fff;
+  background: var(--main);
   padding: 30px;
   border-radius: 5px;
   box-shadow: 0px 15px 20px rgba(0,0,0,0.1);
@@ -69,7 +75,7 @@ html,body{
   left: 0;
   z-index: 0;
   border-radius: 5px;
-  background: -webkit-linear-gradient(left, #222, #555);
+  background: -webkit-linear-gradient(left, var(--dark-background), var(--mid));
   transition: all 0.6s cubic-bezier(0.68,-0.55,0.265,1);
 }
 input[type="radio"]{
@@ -79,12 +85,12 @@ input[type="radio"]{
   left: 50%;
 }
 #signup:checked ~ label.signup{
-  color: #fff;
+  color: var(--main);
   cursor: default;
   user-select: none;
 }
 #signup:checked ~ label.login{
-  color: #000;
+  color: var(--dark-background);
 }
 #login:checked ~ label.signup{
   color: #000;
@@ -122,7 +128,7 @@ input[type="radio"]{
   transition: all 0.3s ease;
 }
 .form-inner form .field input:focus{
-  border-color: #fc83bb;
+  border-color: var(--accent2);
   /* box-shadow: inset 0 0 3px #fb6aae; */
 }
 .form-inner form .field input::placeholder{
@@ -139,15 +145,6 @@ form .field input:focus::placeholder{
   text-align: center;
   margin-top: 30px;
 }
-.form-inner form .pass-link a,
-.form-inner form .signup-link a{
-  color: #fa4299;
-  text-decoration: none;
-}
-.form-inner form .pass-link a:hover,
-.form-inner form .signup-link a:hover{
-  text-decoration: underline;
-}
 form .btn{
   height: 50px;
   width: 100%;
@@ -160,7 +157,7 @@ form .btn .btn-layer{
   width: 300%;
   position: absolute;
   left: -100%;
-  background: -webkit-linear-gradient(right, #222, #555, #222, #555);
+  background: -webkit-linear-gradient(right, var(--dark-background), var(--mid), var(--dark-background), var(--mid));
   border-radius: 5px;
   transition: all 0.4s ease;;
 }
