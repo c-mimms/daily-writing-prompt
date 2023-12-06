@@ -4,6 +4,7 @@
   <head>
     <title>User Details</title>
     <link rel="stylesheet" href="/css/user.css">
+    <script src="/script/u.js" defer></script>
   </head>
 
   <%- include('header') %>
@@ -15,6 +16,19 @@
       <p>User ID: <%= user.id %></p>
       <p>Username: <%= user.username %></p>
       <p>Email: <%= user.email %></p>
+     
+      <% if (typeof currentUser !== 'undefined' && currentUser && currentUser.id !== user.id) { %>
+        <% if (currentUser.following?.some(follow => follow.followingId === user.id)) { %>
+          <form id="unfollowForm" action="/api/users/<%= user.id %>/unfollow">
+            <button id="unfollowButton" type="submit">Unfollow</button>
+          </form>
+        <% } else { %>
+          <form id="followForm" action="/api/users/<%= user.id %>/follow">
+            <button id="followButton" type="submit">Follow</button>
+          </form>
+        <% } %>
+      <% } %>
+
     </div>
 
     <div>

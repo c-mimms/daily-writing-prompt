@@ -13,29 +13,37 @@
 
 <%- include('header') %>
 
-<body>
-  <header>
-    <h1>Postlist</h1>
-  </header>
+  <body>
+    <header>
+      <h1>Daily Prompt</h1>
 
-  <!-- Make this collapsible -->
-  <div id="post-section">
-    <form id="post-form">
-      <textarea name="content" id="post-content" rows="5" required></textarea>
-      <button type="submit" class="btn">Submit</button>
-    </form>
-  </div>
+      <h2 id="todaysPrompt">
+        Write whatever you want.
+      </h2>
+    </header>
 
-  <div class="posts">
-    <% if (posts) {%>
-      <% posts?.forEach(function(post) { %>
-      <div class="post">
-        <p><%= post.content %></p>
-        <p><a href="/u/<%= post.author?.id %>"><%= post.author?.username %></a></p>
-      </div>
-      <% }); %>
-      <% } else { %>
-        <p>No posts to display.</p>
-      <% } %>
-  </div>
-</body>
+    <!-- Make this collapsible -->
+    <div id="post-section">
+      <form id="post-form">
+        <textarea name="content" id="post-content" rows="5" required></textarea>
+        <button type="submit" class="btn">Submit</button>
+      </form>
+    </div>
+
+    <div class="posts">
+      <% if (posts) {%>
+        <% posts?.forEach(function(post) { %>
+          <div class="post">
+            <p>
+              <%= post.content %>
+            </p>
+            <p><a href="/u/<%= post.author?.id %>">
+                <%= post.author?.username %>
+              </a></p>
+          </div>
+          <% }); %>
+            <% } else { %>
+              <p>No posts to display.</p>
+              <% } %>
+    </div>
+  </body>

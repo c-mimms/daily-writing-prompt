@@ -16,8 +16,6 @@ import bodyParser from 'body-parser';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-const prisma = new PrismaClient();
-
 const app = express();
 
 // Middleware
@@ -34,7 +32,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 //Middleware to expose user to templates
 app.use(function(req, res, next) {
-  res.locals.user = req.user;
+  res.locals.currentUser = req.user;
   next();
 });
 

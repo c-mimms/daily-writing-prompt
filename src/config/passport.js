@@ -2,17 +2,16 @@
 import passport from 'passport';
 import GoogleStrategy from 'passport-google-oauth20';
 import LocalStrategy from 'passport-local';
-import { PrismaClient } from '@prisma/client';
-import crypto from 'crypto';
+import { getUserById, getUserByUsername, getUserByGoogleId, createUser } from '../db/users.js';
 
-const prisma = new PrismaClient();
+import crypto from 'crypto';
 
 passport.serializeUser((user, done) => {
   done(null, user.id);
 });
 
 passport.deserializeUser(async (id, done) => {
-  const user = await prisma.user.findUnique({ where: { id: id } });
+  const user = await getUserById(id, false, false, true);
   done(null, user);
 });
 
@@ -20,7 +19,7 @@ passport.use(
   new LocalStrategy(
   async (username, password, done) => {
     console.log(`Entered local strategy: ${username} : ${password}`);
-    const existingUser = await prisma.user.findUnique({ where: { username: username } });
+    const existingUser = await getUserByUsername(username, false, false, true);
     if (existingUser) {
       crypto.pbkdf2(password, existingUser.salt, 310000, 32, 'sha256', function(err, hashedPassword) {
         if (err || !crypto.timingSafeEqual(existingUser.passwordHash, hashedPassword)) {
@@ -46,7 +45,7 @@ passport.use(
     callbackURL: "/auth/google/callback"
   },
   async (accessToken, refreshToken, profile, done) => {
-    const existingUser = await prisma.user.findUnique({ where: { googleId: profile.id } });
+    const existingUser = await getUserByGoogleId(profile.id, false, false, true);
 
     // console.log(profile);
     if (existingUser) {
@@ -58,14 +57,14 @@ passport.use(
         ? profile.emails.find((email) => email.verified)?.value || profile.emails[0]?.value
         : null;
 
-      const user = await prisma.user.create({
-        data: {
+      const user = await createUser(
+        {
           googleId: profile.id,
           username: profile.displayName,
           email: userEmail,
           // other fields...
         }
-      });
+      );
 
       done(null, user);
     }
