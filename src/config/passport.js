@@ -11,7 +11,7 @@ passport.serializeUser((user, done) => {
 });
 
 passport.deserializeUser(async (id, done) => {
-  const user = await getUserById(id);
+  const user = await getUserById(id, false, false, true);
   done(null, user);
 });
 
@@ -19,7 +19,7 @@ passport.use(
   new LocalStrategy(
   async (username, password, done) => {
     console.log(`Entered local strategy: ${username} : ${password}`);
-    const existingUser = await getUserByUsername(username);
+    const existingUser = await getUserByUsername(username, false, false, true);
     if (existingUser) {
       crypto.pbkdf2(password, existingUser.salt, 310000, 32, 'sha256', function(err, hashedPassword) {
         if (err || !crypto.timingSafeEqual(existingUser.passwordHash, hashedPassword)) {
@@ -45,7 +45,7 @@ passport.use(
     callbackURL: "/auth/google/callback"
   },
   async (accessToken, refreshToken, profile, done) => {
-    const existingUser = await getUserByGoogleId(profile.id);
+    const existingUser = await getUserByGoogleId(profile.id, false, false, true);
 
     // console.log(profile);
     if (existingUser) {

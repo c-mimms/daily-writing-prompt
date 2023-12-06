@@ -6,8 +6,8 @@
     <ul>
         <li><a href="/">Home</a></li>
         <li><a href="/#About">About</a></li>
-        <% if (typeof user !== 'undefined' && user) { %>
-            <li><a href="/u/<%= user?.id %>">My posts</a></li>
+        <% if (typeof currentUser!== 'undefined' && currentUser) { %>
+            <li><a href="/u/<%= currentUser.id %>">My posts</a></li>
             <li style="float:right"><a href="/auth/logout">Logout</a></li>
         <% } else { %>
             <li style="float:right"><a href="/auth/login">Login</a></li>
