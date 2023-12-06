@@ -4,10 +4,15 @@ async function getHomePageHandler(req, res) {
   req.isAuthenticated() ? renderHomePage(res) : res.render('landing');
 }
 
-async function renderHomePage(res){
+async function renderHomePage(res) {
   //Load a page of posts and show in reverse chronological order
   try {
-    const posts = await getPosts();
+    const posts = await getPosts({
+      //Midnight yesterday eastern
+      startTime: new Date(new Date().setHours(0, 0, 0, 0)),
+      //Midnight today eastern
+      endTime: new Date(new Date().setHours(24, 0, 0, 0))
+    });
     res.render('home', { posts: posts });
 
   } catch (error) {
