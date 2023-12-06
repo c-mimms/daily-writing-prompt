@@ -18,7 +18,6 @@
       <p>Email: <%= user.email %></p>
      
       <% if (typeof currentUser !== 'undefined' && currentUser && currentUser.id !== user.id) { %>
-        <p><%= JSON.stringify(currentUser) %></p>
         <% if (currentUser.following?.some(follow => follow.followingId === user.id)) { %>
           <form id="unfollowForm" action="/api/users/<%= user.id %>/unfollow">
             <button id="unfollowButton" type="submit">Unfollow</button>
@@ -29,7 +28,7 @@
           </form>
         <% } %>
       <% } %>
-      
+
     </div>
 
     <div>
