@@ -1,5 +1,4 @@
 import express from 'express';
-import { PrismaClient } from '@prisma/client';
 import { fileURLToPath } from 'url';
 import path from 'path';
 import passport from 'passport';
@@ -9,7 +8,9 @@ import { router as authRouter } from './routes/auth.js';
 import { router as postRouter } from './routes/post.js';
 import { router as userRouter } from './routes/user.js';
 import { router as apiRouter } from './routes/api/api.js';
-import { getHomePageHandler as homePageHandler} from './routes/home.js';
+import { wildcardHandler } from './routes/generated.js';
+import { getHomePageHandler as homePageHandler } from './routes/home.js';
+
 
 import bodyParser from 'body-parser';
 
@@ -31,7 +32,7 @@ app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, 'public')));
 
 //Middleware to expose user to templates
-app.use(function(req, res, next) {
+app.use(function (req, res, next) {
   res.locals.currentUser = req.user;
   next();
 });
@@ -48,6 +49,7 @@ app.use('/api', ensureAuthenticated, apiRouter);
 app.get('/', homePageHandler);
 app.get('/privacy', privacyPageHandler);
 app.get('/tos', tosPageHandler);
+app.all('/page/*', wildcardHandler);
 
 const PORT = process.env.PORT || "8080";
 const server = app.listen(PORT, () => {
@@ -73,7 +75,6 @@ function privacyPageHandler(req, res) {
 function tosPageHandler(req, res) {
   res.sendFile(path.join(__dirname, 'public', 'terms_of_service.html'));
 }
-
 
 function ensureAuthenticated(req, res, next) {
   if (req.isAuthenticated()) {
