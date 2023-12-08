@@ -8,7 +8,7 @@ import { router as authRouter } from './routes/auth.js';
 import { router as postRouter } from './routes/post.js';
 import { router as userRouter } from './routes/user.js';
 import { router as apiRouter } from './routes/api/api.js';
-import { wildcardHandler } from './routes/generated.js';
+import { router as gptRouter } from './routes/generated.js';
 import { getHomePageHandler as homePageHandler } from './routes/home.js';
 
 
@@ -45,11 +45,12 @@ app.use('/auth', authRouter);
 app.use('/p', ensureAuthenticated, postRouter);
 app.use('/u', ensureAuthenticated, userRouter);
 app.use('/api', ensureAuthenticated, apiRouter);
+app.use('/page', gptRouter);
 
 app.get('/', homePageHandler);
 app.get('/privacy', privacyPageHandler);
 app.get('/tos', tosPageHandler);
-app.all('/page/*', wildcardHandler);
+
 
 const PORT = process.env.PORT || "8080";
 const server = app.listen(PORT, () => {

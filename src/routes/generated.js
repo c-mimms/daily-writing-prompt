@@ -4,18 +4,35 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
+import { Router } from 'express';
+
+const router = Router();
+
+router.get('/list', listHandler);
+router.get('/*', wildcardHandler);
+
 
 //Create an in memory map to cache wildcardResponsesr
 //Attempt to load from disk first
 const mapPath = path.join(__dirname, 'wildcardResponses.json');
 let wildcardResponses;
 if (fs.existsSync(mapPath)) {
-    const mapJson = fs.readFileSync(mapPath);
-    const mapArray = JSON.parse(mapJson);
-    wildcardResponses = new Map(mapArray);
+  const mapJson = fs.readFileSync(mapPath);
+  const mapArray = JSON.parse(mapJson);
+  wildcardResponses = new Map(mapArray);
 } else {
-    wildcardResponses = new Map();
+  wildcardResponses = new Map();
 }
+
+function listHandler(req, res) {
+  //Return a list of all cached routes in the map as links
+  const list = [...wildcardResponses.keys()]
+    .sort()
+    .map((key) => `<a href="${key}">${key}</a><br/>`)
+    .join('');
+  res.send(list);
+}
+
 
 //Calls gpt to handle wildcard routes and generate content using streamGpt
 function wildcardHandler(req, res) {
@@ -34,7 +51,7 @@ function wildcardHandler(req, res) {
 Then generate the full HTML for the page, using inline CSS and JS as required. Adapt the content, layout and CSS to fit the theme suggested by the generated page context. 
 All images must be embedded SVGs or wikimedia embeds, and must align with the page's theme if included. Ensure the page is responsive, beautiful, and contains intuitive navigation. All internal links must be relative and confined within the /page/ subpath.`
   };
-  
+
   const messages = [prompt];
   //Send mime type to browser and keep connection alive with a 5 second timeout
   res.writeHead(200, {
@@ -56,11 +73,10 @@ All images must be embedded SVGs or wikimedia embeds, and must align with the pa
       //Save in-memory map to disk
       const mapJson = JSON.stringify([...wildcardResponses]);
       fs.writeFileSync(mapPath, mapJson);
-      
+
     }
   }
   streamGpt(messages, callback);
 }
 
-export { wildcardHandler };
-
+export { router };
