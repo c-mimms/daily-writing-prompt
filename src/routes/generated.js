@@ -63,3 +63,4 @@ All images must be embedded SVGs or wikimedia embeds, and must align with the pa
 }
 
 export { wildcardHandler };
+
