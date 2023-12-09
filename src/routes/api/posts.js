@@ -1,6 +1,8 @@
 // routes/api/posts.js
 import { Router } from 'express';
 import { getPosts, getPost, createPost, updatePost, deletePost, deletePosts } from '../../db/posts.js';
+import { embed } from '../../services/gpt.js';
+import { createEmbedding } from '../../db/embeddings.js';
 
 const router = Router();
 
@@ -47,6 +49,11 @@ async function createPostHandler(req, res) {
     };
 
     const newPost = await createPost(postData);
+    //Create embedding for post
+    //TODO make this async eventually
+    const newEmbedding = await embed(content);
+    await createEmbedding(newPost.id, newEmbedding);
+    
 
     res.status(201).json(newPost);
   } catch (error) {

@@ -42,4 +42,12 @@ model Post {
   authorId      Int?
   timestamp     DateTime @default(now())
   content       String
+  embedding     Embedding?
+}
+
+model Embedding {
+  id            Int      @id @default(autoincrement())
+  post          Post?    @relation(fields: [postId], references: [id])
+  postId        Int?     @unique
+  value         Unsupported("vector(1536)")?
 }

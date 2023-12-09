@@ -16,6 +16,17 @@
     </p>
   </div>
 
+  <div>
+    <h2> Similar posts </h2>
+    <% for (let i = 0; i < similarPosts.length; i++) { %>
+      <div class="post-details">
+        <p><a href="/u/<%= similarPosts[i].author?.id %>"><%= similarPosts[i].author?.username%></a> <%= similarPosts[i].timestamp.toLocaleString('en-US') %>
+        </p>
+        <p><%= similarPosts[i].content %>
+        </p>
+      </div>
+    <% } %>
+  </div>
   <hr>
 </body>
 </html>
