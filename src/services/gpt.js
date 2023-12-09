@@ -23,7 +23,7 @@ async function embed(text) {
     });
 
     const json = await response.json();
-    return json;
+    return json.data[0].embedding;
 }
 
 /**
