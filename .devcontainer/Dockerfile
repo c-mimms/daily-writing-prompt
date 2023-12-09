@@ -13,3 +13,4 @@ FROM mcr.microsoft.com/devcontainers/javascript-node:1-20-bullseye
 # RUN curl -L https://fly.io/install.sh | sh
 #export FLYCTL_INSTALL="/home/node/.fly/bin"
 #export PATH="$FLYCTL_INSTALL:$PATH"
+#RUN export PATH="/home/node/.fly/bin:$PATH"
