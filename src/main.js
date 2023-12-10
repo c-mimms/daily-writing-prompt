@@ -9,7 +9,7 @@ import { router as postRouter } from './routes/post.js';
 import { router as userRouter } from './routes/user.js';
 import { router as apiRouter } from './routes/api/api.js';
 import { router as gptRouter } from './routes/generated.js';
-import { getHomePageHandler as homePageHandler } from './routes/home.js';
+import { router as rootRouter } from './routes/home.js';
 
 
 import bodyParser from 'body-parser';
@@ -46,8 +46,8 @@ app.use('/p', ensureAuthenticated, postRouter);
 app.use('/u', ensureAuthenticated, userRouter);
 app.use('/api', ensureAuthenticated, apiRouter);
 app.use('/page', gptRouter);
+app.use('/', rootRouter);
 
-app.get('/', homePageHandler);
 app.get('/privacy', privacyPageHandler);
 app.get('/tos', tosPageHandler);
 
