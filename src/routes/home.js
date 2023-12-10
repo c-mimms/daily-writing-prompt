@@ -4,7 +4,7 @@ import { getPost, getPosts } from '../db/posts.js';
 const router = Router();
 
 router.get('/', getHomePageHandler);
-router.get('/:id', getHistoryHandler);
+router.get('/:id(\\d+)', getHistoryHandler);
 
 async function getHomePageHandler(req, res) {
   req.isAuthenticated() ? renderHomePage(res) : res.render('landing');
@@ -12,6 +12,7 @@ async function getHomePageHandler(req, res) {
 const BASE_DATE = "December 6, 2023";
 
 async function getHistoryHandler(req, res) {
+  console.log("history handler " + req.params.id);
   // Treat id as days since Dec 5th 2023
   const { id } = req.params;
   const prompt = getDayPrompt(id);
