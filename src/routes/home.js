@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { getPost, getPosts } from '../db/posts.js';
+import { getPosts } from '../db/posts.js';
 
 const router = Router();
 
@@ -17,7 +17,6 @@ async function getRootHandler(req, res) {
 
 async function getIdHandler(req, res) {
   const id = parseInt(req.params.id);
-  //Validate id does not exceed the current date (days since dec 5th 2023)
   if (id > daysSince) {
     return res.redirect('/');
   }
@@ -31,9 +30,8 @@ async function renderPage(req, res, id, startTime, endTime) {
   const startDateTime = new Date(startTime);
   const endDateTime = new Date(endTime);
   const prompt = getDayPrompt(id);
-  console.log(`daysSince: ${id}  startTime: ${new Date(startTime)}  endTime: ${new Date(endTime)}`);
   const posts = await getPosts({ startTime: startDateTime, endTime: endDateTime });
-  res.render('home', { posts, prompt });
+  res.render('home', { posts, prompt, id });
 }
 
 const prompts = `Describe the moment you realized your childhood was over.

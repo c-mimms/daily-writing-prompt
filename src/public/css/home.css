@@ -15,15 +15,23 @@ body {
   }
   
   h1 {
-    color: --accent1;
+    color: var(--accent1);
     text-align: center;
     padding: 20px 0;
   }
 
   h2 {
-    color: --accent1;
+    /* color: var(--accent1); */
     text-align: center;
     padding: 20px 0;
+  }
+
+  h2 a{
+    text-decoration: none;
+  }
+
+  h2 a:hover, a:visited {
+    color: var(--accent2);
   }
   
   #post-section {
