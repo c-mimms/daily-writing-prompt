@@ -31,9 +31,10 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, 'public')));
 
-//Middleware to expose user to templates
+//Middleware to expose user to templates and log requested url
 app.use(function (req, res, next) {
   res.locals.currentUser = req.user;
+  console.log(req.method, req.url);
   next();
 });
 
