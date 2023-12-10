@@ -27,10 +27,11 @@ body {
   }
 
   h2 a{
+    color: var(--accent1);
     text-decoration: none;
   }
 
-  h2 a:hover, a:visited {
+  h2 a:hover, h2 a:visited {
     color: var(--accent2);
   }
   
