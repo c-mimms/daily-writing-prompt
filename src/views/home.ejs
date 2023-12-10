@@ -16,19 +16,19 @@
   <body>
     <header>
       <h1>Daily Prompt</h1>
-
       <h2 id="todaysPrompt">
-        <%= prompt %>
+        <a href="/<%= id - 1 %>"> < </a> <%= prompt %> <a href="/<%= id + 1 %>"> > </a>
       </h2>
     </header>
 
-    <!-- Make this collapsible -->
+    <% if (typeof currentUser!== 'undefined' && currentUser) { %>
     <div id="post-section">
       <form id="post-form">
         <textarea name="content" id="post-content" rows="5" required></textarea>
         <button type="submit" class="btn">Submit</button>
       </form>
     </div>
+    <% } %>
 
     <div class="posts">
       <% if (posts) {%>
