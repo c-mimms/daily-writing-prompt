@@ -3,48 +3,37 @@ import { getPost, getPosts } from '../db/posts.js';
 
 const router = Router();
 
-router.get('/', getHomePageHandler);
-router.get('/:id(\\d+)', getHistoryHandler);
-
-async function getHomePageHandler(req, res) {
-  req.isAuthenticated() ? renderHomePage(res) : res.render('landing');
-}
 const BASE_DATE = "December 6, 2023";
+const daysSince = Math.floor((new Date() - new Date(BASE_DATE)) / (1000 * 60 * 60 * 24))
 
-async function getHistoryHandler(req, res) {
-  console.log("history handler " + req.params.id);
-  // Treat id as days since Dec 5th 2023
-  const { id } = req.params;
-  const prompt = getDayPrompt(id);
-  const posts = await getPosts({
-    // Midnight {id} days after Dec 5th 2023
-    startTime: new Date(new Date(BASE_DATE).setDate(new Date(BASE_DATE).getDate() + parseInt(id))),
-    // Midnight {id + 1} days after Dec 5th 2023
-    endTime: new Date(new Date(BASE_DATE).setDate(new Date(BASE_DATE).getDate() + parseInt(id) + 1))
-  });
-  res.render('home', { posts: posts, prompt: prompt });
+router.get('/', getRootHandler);
+router.get('/:id(\\d+)', getIdHandler);
+
+async function getRootHandler(req, res) {
+  const startTime = new Date().setHours(0, 0, 0, 0);
+  const endTime = new Date().setHours(24, 0, 0, 0);
+  renderPage(req, res, daysSince, startTime, endTime);
 }
 
-async function renderHomePage(res) {
-  //Load a page of posts and show in reverse chronological order
-  try {
-    const posts = await getPosts({
-      //Midnight yesterday eastern
-      startTime: new Date(new Date().setHours(0, 0, 0, 0)),
-      //Midnight today eastern
-      endTime: new Date(new Date().setHours(24, 0, 0, 0))
-    });
-
-    //days since dec 5th 2023
-    const daysSince = Math.floor((new Date() - new Date(BASE_DATE)) / (1000 * 60 * 60 * 24))
-    const prompt = getDayPrompt(daysSince);
-
-    res.render('home', { posts: posts, prompt: prompt }) ;
-
-  } catch (error) {
-    console.error('Error retrieving post:', error);
-    res.status(500).json({ error: 'An error occurred while retrieving the post.' });
+async function getIdHandler(req, res) {
+  const id = parseInt(req.params.id);
+  //Validate id does not exceed the current date (days since dec 5th 2023)
+  if (id > daysSince) {
+    return res.redirect('/');
   }
+
+  const startTime = new Date(BASE_DATE).setDate(new Date(BASE_DATE).getDate() + id);
+  const endTime = new Date(BASE_DATE).setDate(new Date(BASE_DATE).getDate() + id + 1);
+  renderPage(req, res, id, startTime, endTime);
+}
+
+async function renderPage(req, res, id, startTime, endTime) {
+  const startDateTime = new Date(startTime);
+  const endDateTime = new Date(endTime);
+  const prompt = getDayPrompt(id);
+  console.log(`daysSince: ${id}  startTime: ${new Date(startTime)}  endTime: ${new Date(endTime)}`);
+  const posts = await getPosts({ startTime: startDateTime, endTime: endDateTime });
+  res.render('home', { posts, prompt });
 }
 
 const prompts = `Describe the moment you realized your childhood was over.
