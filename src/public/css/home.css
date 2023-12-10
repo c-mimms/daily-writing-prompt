@@ -30,7 +30,7 @@ body {
     text-decoration: none;
   }
 
-  h2 a:hover, a:visited {
+  h2 a:hover, h2 a:visited {
     color: var(--accent2);
   }
   

@@ -4,18 +4,23 @@ import { getPosts } from '../db/posts.js';
 const router = Router();
 
 const BASE_DATE = "December 6, 2023";
-const daysSince = Math.floor((new Date() - new Date(BASE_DATE)) / (1000 * 60 * 60 * 24))
 
 router.get('/', getRootHandler);
 router.get('/:id(\\d+)', getIdHandler);
 
+function calculateDaysSince(date) {
+  return Math.floor((new Date() - new Date(date)) / (1000 * 60 * 60 * 24))
+}
+
 async function getRootHandler(req, res) {
+  const daysSince = calculateDaysSince(BASE_DATE);
   const startTime = new Date().setHours(0, 0, 0, 0);
   const endTime = new Date().setHours(24, 0, 0, 0);
   renderPage(req, res, daysSince, startTime, endTime);
 }
 
 async function getIdHandler(req, res) {
+  const daysSince = calculateDaysSince(BASE_DATE);
   const id = parseInt(req.params.id);
   if (id > daysSince) {
     return res.redirect('/');
