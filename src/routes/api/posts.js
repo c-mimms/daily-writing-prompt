@@ -40,6 +40,7 @@ async function getPostHandler(req, res) {
 }
 
 async function createPostHandler(req, res) {
+  //TODO Don't let users create posts for other users
   try {
     const { content, authorId, timestamp} = req.body;
     const postData = {
@@ -49,7 +50,7 @@ async function createPostHandler(req, res) {
     };
 
     const newPost = await createPost(postData);
-    //Create embedding for post
+
     //TODO make this async eventually
     const newEmbedding = await embed(content);
     await createEmbedding(newPost.id, newEmbedding);
@@ -79,7 +80,7 @@ async function updatePostHandler(req, res) {
 async function deletePostHandler(req, res) {
   const { id } = req.params;
   try {
-    await deletePost(id);
+    await deletePost(id, req.user.id);
     res.status(204).end();
   } catch (error) {
     console.error('Error deleting post:', error);

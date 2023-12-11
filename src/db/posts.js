@@ -12,7 +12,7 @@ const prisma = new PrismaClient();
  * @returns {Promise<object[]>} - A Promise that resolves to an array of posts.
  */
 async function getPosts(options = {}) {
-    const { authors, startTime, endTime} = options;
+    const { authors, startTime, endTime } = options;
     let prismaQuery = {};
 
     // If authors are provided, convert them into an array of numbers
@@ -54,7 +54,7 @@ async function getPosts(options = {}) {
  */
 async function getPost(id) {
     return prisma.post.findUnique({
-        where: { id: parseInt(id, 10)},
+        where: { id: parseInt(id, 10) },
         include: {
             author: true
         },
@@ -88,10 +88,23 @@ async function updatePost(id, updatedData) {
 /**
  * Delete a post by ID.
  * @param {number} id - The ID of the post.
+ * @param {number} userId - The ID of the user making the request.
  * @returns {Promise<void>} - A Promise that resolves when the post is deleted.
  */
-async function deletePost(id) {
-    return prisma.post.delete({ where: { id: parseInt(id, 10) } });
+async function deletePost(id, userId) {
+    // Fetch the post
+    const post = await prisma.post.findUnique({
+        where: { id: parseInt(id, 10) },
+    });
+
+    if (post.authorId !== userId) {
+        throw new Error('The provided userId does not match the author of the post');
+    }
+
+    // If the authorId matches the provided userId, delete the post
+    return prisma.post.delete({
+        where: { id: parseInt(id, 10) },
+    });
 }
 
 /**
@@ -105,8 +118,9 @@ async function deletePosts(ids) {
             id: {
                 in: ids.map(id => parseInt(id, 10))
             }
-    }});
-  }
+        }
+    });
+}
 
 
 export { getPosts, getPost, createPost, updatePost, deletePost, deletePosts };
