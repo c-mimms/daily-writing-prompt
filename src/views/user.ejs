@@ -4,7 +4,7 @@
   <head>
     <title>User Details</title>
     <link rel="stylesheet" href="/css/user.css">
-    <script src="/script/u.js" defer></script>
+    <script type="module" src="/script/u.js" defer></script>
   </head>
 
   <%- include('header') %>
@@ -41,6 +41,11 @@
             <li>
               <a href="/p/<%= post.id %>">Post ID: <%= post.id %></a>
               <p>Content: <%= post.content %></p>
+              <% if (typeof currentUser!== 'undefined' && currentUser && (currentUser.id === user.id)) { %>
+                <form>
+                  <button type="button" class="btn" onclick="deletePostId('<%= post.id %>')">Delete</button>
+                </form>
+              <% } %>
             </li>
           <% }); %>
         </ul>
