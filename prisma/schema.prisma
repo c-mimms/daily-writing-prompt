@@ -47,7 +47,7 @@ model Post {
 
 model Embedding {
   id            Int      @id @default(autoincrement())
-  post          Post?    @relation(fields: [postId], references: [id])
+  post          Post?    @relation(fields: [postId], references: [id], onDelete: Cascade)
   postId        Int?     @unique
   value         Unsupported("vector(1536)")?
 }
