@@ -43,6 +43,7 @@ model Post {
   timestamp     DateTime @default(now())
   content       String
   embedding     Embedding?
+  score         Score?
 }
 
 model Embedding {
@@ -50,4 +51,13 @@ model Embedding {
   post          Post?    @relation(fields: [postId], references: [id], onDelete: Cascade)
   postId        Int?     @unique
   value         Unsupported("vector(1536)")?
+}
+
+model Score {
+  id            Int      @id @default(autoincrement())
+  post          Post     @relation(fields: [postId], references: [id])
+  postId        Int      @unique
+  overallScore  Float?
+  adherance     Float?
+  quality       Float?
 }
