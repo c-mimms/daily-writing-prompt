@@ -23,7 +23,7 @@
 	"forwardPorts": [3000, 5432],
 
 	// Use 'postCreateCommand' to run commands after the container is created.
-	"postCreateCommand": "npm install && curl -L https://fly.io/install.sh | sh && prisma migrate dev --name init && npx prisma db seed",
+	"postCreateCommand": "npm install && curl -L https://fly.io/install.sh | sh && npx prisma migrate dev --name init",
 
 	// Configure tool-specific properties.
 	"customizations": {
