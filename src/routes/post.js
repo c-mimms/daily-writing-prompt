@@ -16,7 +16,7 @@ async function getSinglePostHandler(req, res) {
     const neighbors = await getNearestNeighbors(post.id, 5);
     const neighborPosts = await Promise.all(neighbors.map(async (neighbor) => {
       const post = await getPost(neighbor.postId);
-      return post;
+      return {post, similarity: neighbor.distance};
     }));
     
     res.render('post', { post, similarPosts: neighborPosts });

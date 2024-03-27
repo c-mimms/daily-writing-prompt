@@ -22,7 +22,7 @@ async function createEmbedding(postId, embedding) {
  * @returns {Promise<object[]>} - A Promise that resolves to the nearest neighbors.
  */
 async function getNearestNeighbors(postId, k) {
-    const neighbors = await prisma.$queryRaw`SELECT "postId" FROM "Embedding" ORDER BY value <-> (SELECT value FROM "Embedding" WHERE "postId" = ${postId}) LIMIT ${k}`;
+    const neighbors = await prisma.$queryRaw`SELECT "postId", (value <-> (SELECT value FROM "Embedding" WHERE "postId" = ${postId})) as distance FROM "Embedding" ORDER BY distance LIMIT ${k}`;
     return neighbors;
 }
 

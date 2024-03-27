@@ -2,7 +2,7 @@
 <html>
 
 <head>
-  <link rel="stylesheet" type="text/css" href="/css/post.css">
+  <link rel="stylesheet" type="text/css" href="/css/home.css">
   <title>Single Post</title>
 </head>
 
@@ -18,12 +18,16 @@
 
   <div>
     <h2> Similar posts </h2>
-    <% for (let i = 0; i < similarPosts.length; i++) { %>
+    <% for (let i = 1; i < similarPosts.length; i++) { %>
       <div class="post-details">
-        <p><a href="/u/<%= similarPosts[i].author?.id %>"><%= similarPosts[i].author?.username%></a> <%= similarPosts[i].timestamp.toLocaleString('en-US') %>
+        <p><a href="/u/<%= similarPosts[i].post.author?.id %>"><%= similarPosts[i].post.author?.username%></a> <%= similarPosts[i].post.timestamp.toLocaleString('en-US') %>
         </p>
-        <p><%= similarPosts[i].content %>
+        <p><%= similarPosts[i].post.content %>
         </p>
+        <p>Similarity: 
+          <span style="color: hsl(<%= (1 - similarPosts[i].similarity) * 120 %> 100% 40%)">
+          <%= (100 - similarPosts[i].similarity*100).toFixed(0) %>
+        </span></p>
       </div>
     <% } %>
   </div>
