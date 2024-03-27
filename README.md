@@ -19,3 +19,6 @@ flyctl postgres detach --app (APP_NAME) (DATABASE_APP_NAME)
 flyctl postgres attach --app (APP_NAME) (DATABASE_APP_NAME)
 5. Deploy updated secrets
 fly secrets deploy
+
+![home screen](screenshots/homeScreen.png)
+![authed screen](screenshots/loggedIn.png)
